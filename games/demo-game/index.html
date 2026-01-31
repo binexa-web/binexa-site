@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Crypto Dodge | Binexa</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Game CSS -->
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div class="game-wrapper">
+
+        <a href="../../games.html" class="back-btn">← Back to Games</a>
+
+        <h1>Crypto Dodge</h1>
+        <p class="subtitle">Avoid falling blocks. Survive as long as you can.</p>
+
+        <!-- Score -->
+        <div class="score-board">
+            Score: <span id="score">0</span>
+        </div>
+
+        <!-- Game Area -->
+        <div class="game-area" id="gameArea">
+
+            <div id="gameOverBox" class="game-over hidden">
+                <h2>Game Over</h2>
+                <p>Your Score: <span id="finalScore">0</span></p>
+                <button id="restartBtn">Restart Game</button>
+            </div>
+            <div class="player" id="player"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button id="leftBtn">⬅ Left</button>
+            <button id="rightBtn">Right ➡</button>
+        </div>
+
+        <p class="hint">Use buttons or keyboard arrows</p>
+
+    </div>
+
+    <!-- Game JS -->
+    <script src="script.js"></script>
+</body>
+
+</html>

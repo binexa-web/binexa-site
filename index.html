@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binexa</title>
+    <link rel="stylesheet" href="style.css" />
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-left">
+            <span class="nav-logo">Binexa</span>
+        </div>
+
+        <div class="nav-right">
+            <button onclick="window.location.href='games.html'">
+                Play Games
+            </button>
+            <button onclick="window.location.href='token.html'">Token Info</button>
+            <button onclick="connectWallet()">Connect Wallet</button>
+        </div>
+    </nav>
+
+    <div class="hero" id="hero">
+
+        <!-- LEFT -->
+        <div class="hero-left">
+            <!-- NAVBAR -->
+            <h1 class="logo">Binexa</h1>
+            <p class="tagline">Utility Token Powering DeFi ecosystem</p>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="hero-right">
+            <div class="market-wrapper">
+                <div class="market-card">
+
+                    <div class="market-row" onclick="openCoin('bitcoin')">
+                        <span>BTC</span>
+                        <span id="btc-price">--</span>
+                        <span id="btc-change" class="green">--</span>
+                    </div>
+
+                    <div class="market-row" onclick="openCoin('ethereum')">
+                        <span>ETH</span>
+                        <span id="eth-price">--</span>
+                        <span id="eth-change" class="green">--</span>
+                    </div>
+
+                    <div class="market-row" onclick="openCoin('binancecoin')">
+                        <span>BNB</span>
+                        <span id="bnb-price">--</span>
+                        <span id="bnb-change" class="green">--</span>
+                    </div>
+
+                    <div class="market-row" onclick="openCoin('tether')">
+                        <span>USDT</span>
+                        <span id="usdt-price">--</span>
+                        <span id="usdt-change">--</span>
+                    </div>
+
+                    <div class="market-row" onclick="openCoin('solana')">
+                        <span>SOL</span>
+                        <span id="sol-price">--</span>
+                        <span id="sol-change" class="green">--</span>
+                    </div>
+
+                    <div class="market-row" onclick="openCoin('tron')">
+                        <span>TRX</span>
+                        <span id="trx-price">--</span>
+                        <span id="trx-change">--</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <section class="how-it-works">
+        <h2>How Binexa Works</h2>
+
+        <div class="how-cards">
+            <div class="how-card">
+                <h3>🎮 Play Games</h3>
+                <p>Play skill-based games inside the Binexa ecosystem.</p>
+            </div>
+
+            <div class="how-card">
+                <h3>💰 Earn Rewards</h3>
+                <p>Earn BNX through gameplay, staking, and referrals.</p>
+            </div>
+
+            <div class="how-card">
+                <h3>📈 Grow with DeFi</h3>
+                <p>Stake, vest, and grow rewards using DeFi utilities.</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+
+    <footer class="footer">
+        <div class="footer-container">
+
+            <!-- LEFT -->
+            <div class="footer-left">
+                <p class="managed">Managed by</p>
+                <h3 class="foundation">Binexa Foundation</h3>
+                <p class="copyright">
+                    © 2026 Binexa Foundation. All rights reserved.
+                </p>
+
+                <div class="social-icons">
+                    <a href="https://t.me/BinexaToken" target="_blank" aria-label="Telegram">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+
+                    <a href="https://x.com/BinexaToken" target="_blank" aria-label="X">
+                        <i class="fab fa-x-twitter"></i>
+                    </a>
+
+                    <a href="https://discord.gg/YOUR_DISCORD" target="_blank" aria-label="Discord">
+                        <i class="fab fa-discord"></i>
+                    </a>
+
+                    <a href="https://github.com/YOUR_GITHUB" target="_blank" aria-label="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <footer class="site-footer">
+                <div class="footer-inner">
+
+                    <div class="footer-col">
+                        <h4>Binexa</h4>
+                        <ul>
+                            <li><a href="about.html">About</a></li>
+                            <li><a href="ecosystem.html">Ecosystem</a></li>
+                            <li><a href="games.html">Games</a></li>
+                            <li><a href="dapp.html">DApp</a></li>
+                            <li><a href="contact.html">Contact Us</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Resources</h4>
+                        <ul>
+                            <li><a href="disclaimer.html">Disclaimer</a></li>
+                            <li><a href="privacy.html">Privacy Policy</a></li>
+                            <li><a href="terms.html">Terms & Conditions</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-col">
+                        <h4>Get Connected</h4>
+                        <ul>
+                            <li><a href="https://t.me/BinexaToken" target="_blank">Join Telegram</a></li>
+                            <li><a href="https://x.com/BinexaToken" target="_blank">Follow on X</a></li>
+                            <li><a href="newsletter.html">Newsletter</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="footer-bottom">
+                    © 2026 Binexa Foundation. All rights reserved.
+                </div>
+            </footer>
+
+            <script src="wallet.js"></script>
+            <script src="wallet.js"></script>
+</body>
+
+</html>
