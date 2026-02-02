@@ -14,9 +14,11 @@ body {
 /* HERO LAYOUT */
 .hero {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 70px;
+    justify-content: center;
+    align-items: flex-start;
+    /* 🔥 यही main fix है */
+    padding: 160px;
+    padding-left: 120px;
 }
 
 /* LEFT */
@@ -39,16 +41,17 @@ body {
 }
 
 .logo {
-    font-size: 64px;
-    font-weight;
-    800;
+    font-size: 100px;
+    font-weight:
+        800;
     letter-spacing: 0.5px;
     line-height: 1.1;
     display: block;
+    text-align: center;
 }
 
 .tagline {
-    font-size: 25px;
+    font-size: 52px;
     opacity: 0.9;
     margin-top: 8px;
     padding-left: 4px;
@@ -115,14 +118,29 @@ body {
     font-weight: 600;
 }
 
-/* ===== NAVBAR STYLING ===== */
+/* ===== DESKTOP NAVBAR FIX ===== */
 .navbar {
-    display: flex;
-    justify-content: left;
-    align-items: left;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
     padding: 16px 40px;
     background: rgba(0, 0, 0, 0.15);
     backdrop-filter: blur(10px);
+}
+
+/* Left logo */
+.nav-left {
+    justify-self: start;
+}
+
+/* Center presale */
+.nav-center {
+    justify-self: center;
+}
+
+/* Right buttons */
+.nav-right {
+    justify-self: end;
 }
 
 /* Right side buttons */
@@ -191,9 +209,9 @@ body {
 /* Hero section main logo (Play Games ke niche wala) */
 .hero-left .logo {
     font-size: 64px;
-    /* pehle ~48px hoga */
     font-weight: 800;
-    margin-bottom: 8px;
+    /* LOGO UP */
+    margin-bottom: 10px;
 }
 
 .hero-left .tagline {
@@ -2131,3 +2149,295 @@ body {
 .simple-section ul {
     padding-left: 18px;
 }
+
+.price-card {
+    width: 320px;
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(14px);
+    border-radius: 20px;
+    padding: 18px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+}
+
+.price-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 80px;
+    align-items: center;
+    padding: 14px 6px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+}
+
+.price-row:last-child {
+    border-bottom: none;
+}
+
+.coin {
+    font-weight: 600;
+    color: #fff;
+}
+
+.price {
+    text-align: center;
+    color: #e6f1ff;
+}
+
+.change {
+    text-align: right;
+    font-weight: 600;
+}
+
+.change.down {
+    color: #ff6b6b;
+}
+
+.change.up {
+    color: #4cd964;
+}
+
+.change.neutral {
+    color: #ffffff;
+}
+
+.price-row:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+}
+
+/* ===============================
+   CRYPTO GRID BACKGROUND
+================================ */
+
+.hero {
+    position: relative;
+    overflow: hidden;
+}
+
+.crypto-grid {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    animation: gridMove 20s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+    /* IMPORTANT */
+}
+
+/* Move grid slowly */
+@keyframes gridMove {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 600px 600px;
+    }
+}
+
+/* Ensure content stays above grid */
+.hero-left,
+.price-card {
+    position: relative;
+    z-index: 2;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+    .crypto-grid {
+        background-size: 40px 40px;
+        opacity: 0.8;
+    }
+}
+
+/* ===== MOBILE FIX ===== */
+@media (max-width: 768px) {
+
+    .hero {
+        flex-direction: column;
+        padding: 40px 20px;
+        /* mobile ke liye balanced */
+    }
+
+    .hero-left {
+        width: 100%;
+        text-align: center;
+        /* 👈 mobile center */
+        padding-top: 0;
+    }
+
+    .hero-center {
+        width: 100%
+    }
+
+    .hero-center .logo {
+        font-size: 48px !important
+    }
+
+    .logo {
+        margin: 0 auto;
+    }
+
+    /* =========================
+   NAVBAR – DESKTOP DEFAULT
+========================= */
+
+    .navbar {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        padding: 16px 40px;
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+        position: relative;
+        z-index: 100;
+    }
+
+    /* Left logo */
+    .nav-left {
+        justify-self: start;
+    }
+
+    .nav-logo {
+        font-size: 28px;
+        font-weight: 600;
+        color: #fff;
+    }
+
+    /* Center presale */
+    .nav-center {
+        justify-self: center;
+    }
+
+    /* Right buttons */
+    .nav-right {
+        justify-self: end;
+        display: flex;
+        gap: 12px;
+    }
+
+    .nav-right button {
+        padding: 10px 18px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        background: #fff;
+        color: #0b3c5d;
+    }
+
+    .presale-banner {
+        padding: 8px 26px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, #ff8a00, #ffb347);
+        color: #111;
+        font-weight: 600;
+        font-size: 14px;
+        white-space: nowrap;
+        text-align: center;
+        animation: glowPulse 1.4s infinite;
+    }
+
+    @keyframes glowPulse {
+        0% {
+            box-shadow: 0 0 6px rgba(255, 140, 0, .4);
+        }
+
+        50% {
+            box-shadow: 0 0 18px rgba(255, 140, 0, 1);
+        }
+
+        100% {
+            box-shadow: 0 0 6px rgba(255, 140, 0, .4);
+        }
+    }
+
+    /* =========================
+   MOBILE VIEW
+========================= */
+    @media (max-width: 768px) {
+
+        .navbar {
+            grid-template-columns: 1fr;
+            gap: 14px;
+            padding: 14px 16px;
+            text-align: center;
+        }
+
+        .nav-left,
+        .nav-center,
+        .nav-right {
+            justify-self: center;
+        }
+
+        /* ===============================
+   PRESALE CENTER + BLINK (FIXED)
+   =============================== */
+
+        /* Navbar must be relative */
+        .navbar {
+            position: relative;
+        }
+
+        /* Exact center positioning */
+        .nav-center {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            /* buttons still clickable */
+        }
+
+        /* Banner base */
+        .presale-banner {
+            pointer-events: auto;
+            background: linear-gradient(90deg, #ff9800, #ffb347);
+            color: #111;
+            font-weight: 700;
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-size: 14px;
+            position: relative;
+            overflow: visible;
+        }
+
+        /* REAL BLINK (pseudo element) */
+        .presale-banner::before {
+            content: "";
+            position: absolute;
+            inset: -8px;
+            border-radius: inherit;
+            background: rgba(255, 165, 0, 0.7);
+            filter: blur(18px);
+            opacity: 0;
+            animation: presaleBlink 1.2s infinite;
+            z-index: -1;
+        }
+
+        /* Blink animation */
+        @keyframes presaleBlink {
+            0% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Mobile fix */
+        @media (max-width: 768px) {
+            .nav-center {
+                position: static;
+                transform: none;
+                margin: 10px 0;
+            }
+        }
