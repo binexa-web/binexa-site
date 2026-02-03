@@ -119,8 +119,8 @@ body {
 
 /* NAVBAR LOGO */
 .nav-logo {
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 32px;
+    font-weight: 700;
 }
 
 /* ===== DESKTOP NAVBAR FIX ===== */
@@ -2446,4 +2446,11 @@ body {
                 transform: none;
                 margin: 10px 0;
             }
+        }
+
+        .site-logo {
+            height: 60px;
+            /* size control */
+            width: auto;
+            margin-right: 15px;
         }
