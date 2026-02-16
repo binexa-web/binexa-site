@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Register Test</title>
+</head>
+
+<body>
+
+    <h2>Register User</h2>
+
+    <input id="name" placeholder="Name"><br><br>
+    <input id="mobile" placeholder="Mobile"><br><br>
+    <input id="referral" placeholder="Referral Code (optional)"><br><br>
+
+    <button onclick="register()">Register</button>
+
+    <script>
+        function register() {
+            fetch("http://localhost:3000/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    name: document.getElementById("name").value,
+                    mobile: document.getElementById("mobile").value,
+                    referral_code: document.getElementById("referral").value
+                })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    alert(JSON.stringify(data));
+                })
+                .catch(err => alert("Error"));
+        }
+    </script>
+
+</body>
+
+</html>

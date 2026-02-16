@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: #fff;
+            padding: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .card {
+            background: #1e293b;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        button {
+            padding: 8px 14px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #38bdf8;
+            color: #000;
+            font-weight: bold;
+        }
+
+        pre {
+            background: #020617;
+            padding: 10px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .stat-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: #0e1b2e;
+            padding: 15px;
+            border-radius: 10px;
+            min-width: 160px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-card h4 {
+            margin: 0;
+            font-size: 14px;
+            color: #8fb4ff;
+        }
+
+        .stat-card p {
+            font-size: 20px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>🛠 Admin Dashboard</h1>
+
+    <div class="card">
+        <h3>📊 Platform Stats</h3>
+        <pre id="stats">Loading...</pre>
+        <button onclick="loadStats()">Load Stats</button>
+    </div>
+
+    <div class="card">
+        <button onclick="loadUsers()">Load All Users</button>
+    </div>
+
+    <div class="card">
+        <h3>Users</h3>
+        <pre id="users">No data</pre>
+    </div>
+
+    <div class="card">
+        <h3>Referral Tree (User ID)</h3>
+        <input id="treeUserId" placeholder="Enter User ID" />
+        <button onclick="loadTree()">Load Tree</button>
+        <pre id="tree"></pre>
+    </div>
+
+    <div class="card">
+        <h3>All Earnings</h3>
+        <button onclick="loadEarnings()">Load Earnings</button>
+        <pre id="earnings"></pre>
+    </div>
+
+    <script>
+        if (!localStorage.getItem("admin")) {
+            window.location.href = "/admin/admin-login.html";
+        }
+        function loadUsers() {
+            fetch("/admin/users")
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("users").textContent =
+                        JSON.stringify(data, null, 2);
+                });
+        }
+
+        function loadTree() {
+            const userId = document.getElementById("treeUserId").value;
+            fetch(`/admin/referral-tree/${userId}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("tree").textContent =
+                        JSON.stringify(data, null, 2);
+                });
+        }
+
+        function loadEarnings() {
+            fetch("/admin/earnings")
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById("earnings").textContent =
+                        JSON.stringify(data, null, 2);
+                });
+        }
+
+        function loadStats() {
+            fetch("/admin/stats")
+                .then(res => res.json())
+                .then(data => {
+
+                    const statsBox = document.getElementById("stats");
+
+                    statsBox.innerHTML = `
+<div class="stat-grid">
+
+<div class="stat-card">
+<h4>Total Users</h4>
+<p>${data.totalUsers}</p>
+</div>
+
+<div class="stat-card">
+<h4>Total Earnings</h4>
+<p>₹${data.totalEarnings}</p>
+</div>
+
+<div class="stat-card">
+<h4>Level Income</h4>
+<p>
+${data.levelWise.map(l => `L${l.level}: ₹${l.amount}`).join("<br>")}
+</p>
+</div>
+
+</div>
+`;
+                })
+        }
+
+        loadStats();
+
+    </script>
+
+</body>
+
+</html>
