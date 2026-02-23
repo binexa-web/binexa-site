@@ -282,18 +282,22 @@ app.get("/api/tree/:userId", async (req, res) => {
             });
         });
 
-        function buildTree(parentId, level = 1) {
+        function buildTree(parentId, depth = 0) {
+
             return users
                 .filter(u => u.referrer_id === parentId)
                 .map(child => ({
+
                     id: child.id,
                     username: child.name,
-                    level: level,
-                    children: buildTree(child.id, level + 1)
+                    level: depth, // ⭐ LEVEL ADD
+                    children: buildTree(child.id, depth + 1)
+
                 }));
+
         }
 
-        const tree = buildTree(userId, 1);
+        const tree = buildTree(userId, 0);
         res.json(tree);
 
     } catch (err) {

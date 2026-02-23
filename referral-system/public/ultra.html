@@ -31,92 +31,62 @@
 
             <h1>Ultra Max Dashboard</h1>
 
-            <div class="u-card">
+            <div class="card">
                 <h3>🌳 My Referral Tree</h3>
-                <div id="treeView" class="tree-wrapper"></div>
+
+                <div id="graphTree"></div>
+
+                <div id="treeWrapper">
+                    <div id="treeView" class="mlm-tree"></div>
+                </div>
+
+                <div class="ultra-cards">
+
+                    <div class="u-card">
+                        <h4>Total Referrals</h4>
+                        <p id="uTotalUsers">0</p>
+                    </div>
+
+                    <div class="u-card">
+                        <h4>Total Earnings</h4>
+                        <p id="uTotalEarn">₹0</p>
+                    </div>
+
+                    <div class="u-card">
+                        <h4>Mining Power</h4>
+                        <p id="power">Starter</p>
+                    </div>
+
+                    <div class="u-card">
+                        <h4>Rank</h4>
+                        <p id="rank">Starter</p>
+                    </div>
+
+                </div>
+
+                <div class="u-table">
+                    <h3>💰 Referral Level Commission</h3>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Level</th>
+                                <th>Commission %</th>
+                                <th>Total Earned</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="levelTable">
+                        </tbody>
+                    </table>
+
+                </div>
+
             </div>
-
-            <div class="ultra-cards">
-
-                <div class="u-card">
-                    <h4>Total Referrals</h4>
-                    <p id="uTotalUsers">0</p>
-                </div>
-
-                <div class="u-card">
-                    <h4>Total Earnings</h4>
-                    <p id="uTotalEarn">₹0</p>
-                </div>
-
-                <div class="u-card">
-                    <h4>Mining Power</h4>
-                    <p id="power">Starter</p>
-                </div>
-
-                <div class="u-card">
-                    <h4>Rank</h4>
-                    <p id="rank">Starter</p>
-                </div>
-
-            </div>
-
-            <div class="u-table">
-                <h3>💰 Referral Level Commission</h3>
-
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Level</th>
-                            <th>Commission %</th>
-                            <th>Total Earned</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="levelTable">
-                    </tbody>
-                </table>
-
-            </div>
-
-        </div>
-    </div>
-
-    <div class="u-card">
-        <h3>🌳 My Referral Tree</h3>
-        <div id="treeView"></div>
-    </div>
-
-    <!-- ===============================
-     REFERRAL PANEL (ULTRA MAX)
-================================ -->
-
-    <div id="referralPanel" class="ultra-section" style="display:none;">
-
-        <!-- 📊 Overview Cards -->
-        <div class="referral-cards">
-            <div class="card">Team Size</div>
-            <div class="card">Direct Referrals</div>
-            <div class="card">Level Earnings</div>
-            <div class="card">Wallet Balance</div>
-            <div class="card">Rank</div>
         </div>
 
-        <!-- 👤 Direct Referrals Table -->
-        <div class="referral-direct">
-            <h3>Direct Referrals</h3>
-            <div>No referrals yet</div>
-        </div>
 
-        <!-- 🌳 Vertical Tree -->
-        <div class="referral-tree">
-            <h3>My Tree</h3>
-            <div>Your network is empty</div>
-        </div>
-
-    </div>
-
-
-    <script src="ultra.js"></script>
+        <script src="ultra.js"></script>
 
 </body>
 
