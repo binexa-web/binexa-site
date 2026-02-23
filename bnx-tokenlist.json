@@ -1,0 +1,13 @@
+{
+  "name": "Binexa Token List",
+  "tokens": [
+    {
+      "name": "Binexa",
+      "symbol": "BNX",
+      "address": "0xD7fAcAa159646183E1100A8385fe2403072cE63b",
+      "chainId": 56,
+      "decimals": 18,
+      "logoURI": "https://binexa.xyz/images/bnx.png"
+    }
+  ]
+}
