@@ -2461,32 +2461,3 @@ body {
             width: auto;
             margin-right: 15px;
         }
-
-    /* MOBILE CENTER FIX */
-
-.hero{
-    max-width:700px;
-    margin:0 auto;
-    text-align:center;
-    padding:20px;
-}
-
-.hero h1{
-    text-align:center;
-}
-
-.hero p{
-    text-align:center;
-}
-
-/* Mobile screen fix */
-
-@media (max-width:768px){
-
-.hero{
-    width:90%;
-    margin:auto;
-    text-align:center;
-}
-
-}
