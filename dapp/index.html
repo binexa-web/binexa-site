@@ -15,14 +15,14 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         .container {
             background: #1e293b;
             padding: 30px;
             border-radius: 20px;
-            max-width: 400px;
+            max-width: 420px;
             width: 95%;
             text-align: center;
             border: 1px solid #334155;
@@ -62,18 +62,6 @@
             box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
         }
 
-        #importBtn {
-            background: transparent;
-            color: #f59e0b;
-            border: 1px solid #f59e0b;
-            font-size: 0.8rem;
-            padding: 8px;
-        }
-
-        #importBtn:hover {
-            background: rgba(245, 158, 11, 0.1);
-        }
-
         input {
             padding: 12px;
             border-radius: 8px;
@@ -84,6 +72,34 @@
             color: white;
             text-align: center;
             font-size: 1rem;
+        }
+
+        /* Token Info Section */
+        .token-info {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #475569;
+        }
+
+        .token-addr {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            word-break: break-all;
+            margin-top: 5px;
+        }
+
+        .small-copy {
+            background: #475569;
+            color: white;
+            border: none;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.6rem;
+            width: auto;
+            cursor: pointer;
+            margin-top: 5px;
         }
 
         #refContainer {
@@ -111,10 +127,6 @@
             margin: 0;
         }
 
-        #copyBtn:hover {
-            background: #059669;
-        }
-
         #status {
             margin-top: 10px;
             color: #94a3b8;
@@ -136,10 +148,15 @@
         <button id="connectBtn">Connect Wallet</button>
 
         <div id="buySection" style="display:none;">
-            <input type="number" id="bnbAmount" placeholder="Amount in BNB (Min 0.1)" step="0.1" min="0.1">
+            <input type="number" id="bnbAmount" placeholder="Amount (Min 0.1 BNB)" step="0.1" min="0.1">
             <button id="buyBtn">Buy BNX Now</button>
 
-            <button id="importBtn">Add $BNX to MetaMask</button>
+            <div class="token-info">
+                <button id="importBtn" style="margin-bottom: 5px;">Add $BNX to your Wallet</button>
+                <div style="font-size: 0.75rem; color: #f59e0b;"><b>Contract Address:</b></div>
+                <div id="tokenAddrText" class="token-addr">0xD7fAcAa159646183E1100A8385fe2403072cE63b</div>
+                <button id="copyTokenAddr" class="small-copy">Copy Address</button>
+            </div>
 
             <div id="refContainer">
                 <p style="color: #10b981; font-size: 0.8rem; margin: 0 0 5px 0;"><b>Your Referral Link (10% Bonus)</b>
@@ -153,11 +170,8 @@
     </div>
 
     <script>
-        // Sale Contract Address
         const saleAddress = "0x9300F0A378B60Dc4fcBcB224C78A6B4720f456B6";
-        // BNX Token Address
         const tokenAddress = "0xD7fAcAa159646183E1100A8385fe2403072cE63b";
-
         const abi = ["function buyTokens(address _referrer) public payable"];
 
         let signer, contract;
@@ -170,7 +184,7 @@
                     signer = provider.getSigner();
                     const address = await signer.getAddress();
 
-                    document.getElementById("connectBtn").innerText = "Wallet: " + address.substring(0, 6) + "..." + address.substring(38);
+                    document.getElementById("connectBtn").innerText = "Connected: " + address.substring(0, 6) + "...";
                     document.getElementById("buySection").style.display = "block";
                     document.getElementById("status").innerText = "Connected to BSC!";
 
@@ -178,10 +192,19 @@
                     document.getElementById("refContainer").style.display = "block";
                     document.getElementById("refLinkDisplay").innerText = refLink;
 
+                    // Referral Copy
                     document.getElementById("copyBtn").onclick = () => {
                         navigator.clipboard.writeText(refLink).then(() => {
                             document.getElementById("copyBtn").innerText = "Copied!";
                             setTimeout(() => { document.getElementById("copyBtn").innerText = "Copy Link"; }, 2000);
+                        });
+                    };
+
+                    // Token Address Copy Logic
+                    document.getElementById("copyTokenAddr").onclick = () => {
+                        navigator.clipboard.writeText(tokenAddress).then(() => {
+                            document.getElementById("copyTokenAddr").innerText = "Address Copied!";
+                            setTimeout(() => { document.getElementById("copyTokenAddr").innerText = "Copy Address"; }, 2000);
                         });
                     };
 
@@ -190,11 +213,10 @@
                     document.getElementById("status").innerText = "Connection Failed!";
                 }
             } else {
-                alert("For Mobile Please open in Metamask or any other wallet Web3 browser!");
+                alert("For Mobile users open in Wallet Browser");
             }
         }
 
-        // Function to add token to MetaMask
         async function addToken() {
             try {
                 await window.ethereum.request({
@@ -205,33 +227,31 @@
                             address: tokenAddress,
                             symbol: 'BNX',
                             decimals: 18,
-                            image: 'https://binexa.xyz/images/logo.png', // Aapna logo URL yahan daal sakte hain
+                            image: 'https://binexa.xyz/images/logo.png',
                         },
                     },
                 });
-            } catch (error) {
-                console.log(error);
-            }
+            } catch (error) { console.log(error); }
         }
 
         async function buy() {
             const amount = document.getElementById("bnbAmount").value;
-            if (amount < 0.1) return alert("Minimum purchase is 0.1 BNB");
+            if (amount < 0.1) return alert("Minimum buy is 0.1 BNB");
 
             const urlParams = new URLSearchParams(window.location.search);
             let referrer = urlParams.get('ref') || "0x0000000000000000000000000000000000000000";
 
             try {
-                document.getElementById("status").innerText = "Confirm in MetaMask...";
+                document.getElementById("status").innerText = "Confirming in Wallet...";
                 const tx = await contract.buyTokens(referrer, {
                     value: ethers.utils.parseEther(amount)
                 });
-                document.getElementById("status").innerText = "Processing...";
+                document.getElementById("status").innerText = "Transaction Sent...";
                 await tx.wait();
-                alert("Success! BNX Bought.");
+                alert("Success! BNX Purchased.");
                 document.getElementById("status").innerText = "Transaction Successful!";
             } catch (err) {
-                alert("Transaction Failed!");
+                alert("Transaction Failed! Ensure min 0.1 BNB.");
                 document.getElementById("status").innerText = "Error!";
             }
         }
