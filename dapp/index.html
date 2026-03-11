@@ -74,10 +74,9 @@
             font-size: 1rem;
         }
 
-        /* Token Info Section */
         .token-info {
             background: rgba(15, 23, 42, 0.5);
-            padding: 10px;
+            padding: 15px;
             border-radius: 10px;
             margin-bottom: 15px;
             border: 1px solid #475569;
@@ -87,19 +86,19 @@
             font-size: 0.7rem;
             color: #94a3b8;
             word-break: break-all;
-            margin-top: 5px;
+            margin-top: 8px;
+            margin-bottom: 8px;
         }
 
         .small-copy {
             background: #475569;
             color: white;
             border: none;
-            padding: 3px 8px;
+            padding: 5px 12px;
             border-radius: 5px;
-            font-size: 0.6rem;
+            font-size: 0.7rem;
             width: auto;
             cursor: pointer;
-            margin-top: 5px;
         }
 
         #refContainer {
@@ -152,8 +151,8 @@
             <button id="buyBtn">Buy BNX Now</button>
 
             <div class="token-info">
-                <button id="importBtn" style="margin-bottom: 5px;">Add $BNX to your Wallet</button>
-                <div style="font-size: 0.75rem; color: #f59e0b;"><b>Contract Address:</b></div>
+                <button id="importBtn" style="margin-bottom: 10px;">Add $BNX to your Wallet</button>
+                <div style="font-size: 0.8rem; color: #f59e0b;"><b>Contract Address:</b></div>
                 <div id="tokenAddrText" class="token-addr">0xD7fAcAa159646183E1100A8385fe2403072cE63b</div>
                 <button id="copyTokenAddr" class="small-copy">Copy Address</button>
             </div>
@@ -170,11 +169,17 @@
     </div>
 
     <script>
+        // Configuration
         const saleAddress = "0x9300F0A378B60Dc4fcBcB224C78A6B4720f456B6";
         const tokenAddress = "0xD7fAcAa159646183E1100A8385fe2403072cE63b";
         const abi = ["function buyTokens(address _referrer) public payable"];
 
         let signer, contract;
+
+        // Helper to format address: 0x1234...abcd
+        function formatAddress(addr) {
+            return addr.substring(0, 6) + "..." + addr.substring(addr.length - 4);
+        }
 
         async function connect() {
             if (typeof window.ethereum !== 'undefined') {
@@ -184,15 +189,16 @@
                     signer = provider.getSigner();
                     const address = await signer.getAddress();
 
-                    document.getElementById("connectBtn").innerText = "Connected: " + address.substring(0, 6) + "...";
+                    // Update button with short address
+                    document.getElementById("connectBtn").innerText = "Connected: " + formatAddress(address);
                     document.getElementById("buySection").style.display = "block";
                     document.getElementById("status").innerText = "Connected to BSC!";
 
+                    // Referral Link Logic
                     const refLink = window.location.origin + window.location.pathname + "?ref=" + address;
                     document.getElementById("refContainer").style.display = "block";
                     document.getElementById("refLinkDisplay").innerText = refLink;
 
-                    // Referral Copy
                     document.getElementById("copyBtn").onclick = () => {
                         navigator.clipboard.writeText(refLink).then(() => {
                             document.getElementById("copyBtn").innerText = "Copied!";
@@ -200,7 +206,6 @@
                         });
                     };
 
-                    // Token Address Copy Logic
                     document.getElementById("copyTokenAddr").onclick = () => {
                         navigator.clipboard.writeText(tokenAddress).then(() => {
                             document.getElementById("copyTokenAddr").innerText = "Address Copied!";
@@ -251,7 +256,7 @@
                 alert("Success! BNX Purchased.");
                 document.getElementById("status").innerText = "Transaction Successful!";
             } catch (err) {
-                alert("Transaction Failed! Ensure min 0.1 BNB.");
+                alert("Transaction Failed! Ensure you have enough BNB.");
                 document.getElementById("status").innerText = "Error!";
             }
         }
