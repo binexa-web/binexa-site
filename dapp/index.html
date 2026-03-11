@@ -2,25 +2,184 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Binexa Dapp</title>
-    <link rel="stylesheet" href="../style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BINEXA ($BNX) Private Sale</title>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f172a;
+            color: white;
+            margin: 0;
+            display: flex;
+            /* Box center karne ke liye */
+            justify-content: center;
+            /* Horizontally center */
+            align-items: center;
+            /* Vertically center */
+            height: 100vh;
+            /* Puri screen ki height */
+        }
+
+        .container {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 450px;
+            width: 90%;
+            /* Mobile responsive ke liye */
+            border: 1px solid #334155;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        h2 {
+            color: #f59e0b;
+            margin-bottom: 10px;
+        }
+
+        .stats {
+            background: #334155;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        button {
+            background: #f59e0b;
+            color: black;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #d97706;
+        }
+
+        input {
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #475569;
+            width: 90%;
+            margin-bottom: 15px;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        #refLinkDisplay {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px dashed #10b981;
+            color: #10b981;
+            font-size: 0.8rem;
+            word-break: break-all;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- NAVBAR (same as index.html) -->
-    <!-- yaha baad me paste karenge -->
+    <div class="container">
+        <h2>BINEXA ($BNX)</h2>
+        <p>Private Sale is Live</p>
 
-    <main class="page-content">
-        <h1>Binexa Dapp</h1>
-        <p>Coming Soon</p>
-    </main>
+        <div class="stats">
+            Price: 1 BNB = 200,000 BNX<br>
+            Min Buy: 0.1 BNB
+        </div>
 
+        <button id="connectBtn">Connect Wallet</button>
 
+        <div id="buySection" style="display:none; margin-top: 20px;">
+            <input type="number" id="bnbAmount" placeholder="Amount in BNB (Min 0.1)" step="0.1" min="0.1">
+            <button id="buyBtn">Buy BNX Now</button>
+            <div id="refLinkDisplay"></div>
+        </div>
 
-    <script src="script.js"></script>
+        <p id="status" style="margin-top: 15px; font-size: 0.8rem; color: #94a3b8;"></p>
+    </div>
+
+    <script>
+        // Aapka deployed contract address
+        const contractAddress = "0x9300F0A378B60Dc4fcBcB224C78A6B4720f456B6";
+
+        const abi = [
+            "function buyTokens(address _referrer) public payable"
+        ];
+
+        let signer, contract;
+
+        async function connect() {
+            if (window.ethereum) {
+                try {
+                    const provider = new ethers.providers.Web3Provider(window.ethereum);
+                    await provider.send("eth_requestAccounts", []);
+                    signer = provider.getSigner();
+                    const address = await signer.getAddress();
+
+                    document.getElementById("connectBtn").innerText = "Connected: " + address.substring(0, 6) + "..." + address.substring(38);
+                    document.getElementById("buySection").style.display = "block";
+
+                    // Referral Link Logic
+                    const refLink = window.location.origin + window.location.pathname + "?ref=" + address;
+                    const refBox = document.getElementById("refLinkDisplay");
+                    refBox.style.display = "block";
+                    refBox.innerHTML = "<strong>Your Referral Link (10% BNB Reward):</strong><br>" + refLink;
+
+                    contract = new ethers.Contract(contractAddress, abi, signer);
+                    document.getElementById("status").innerText = "Wallet Ready!";
+                } catch (err) {
+                    document.getElementById("status").innerText = "Connection Failed";
+                }
+            } else {
+                alert("Please use a Web3 Wallet like Trust or Metamask");
+            }
+        }
+
+        async function buy() {
+            const amount = document.getElementById("bnbAmount").value;
+            if (amount < 0.1) return alert("Minimum buy is 0.1 BNB");
+
+            const urlParams = new URLSearchParams(window.location.search);
+            let referrer = urlParams.get('ref');
+
+            // Agar referrer nahi hai ya galat hai, toh zero address use karein
+            if (!referrer || !ethers.utils.isAddress(referrer)) {
+                referrer = "0x0000000000000000000000000000000000000000";
+            }
+
+            try {
+                document.getElementById("status").innerText = "Confirming transaction in MetaMask...";
+                const tx = await contract.buyTokens(referrer, {
+                    value: ethers.utils.parseEther(amount)
+                });
+                document.getElementById("status").innerText = "Transaction Sent! Waiting for Blockchain...";
+                await tx.wait();
+                alert("Congratulations! BNX Tokens purchased successfully.");
+                document.getElementById("status").innerText = "Transaction Confirmed!";
+            } catch (err) {
+                console.error(err);
+                document.getElementById("status").innerText = "Transaction Error";
+                alert("Error! Check if you have enough BNB for gas.");
+            }
+        }
+
+        document.getElementById("connectBtn").onclick = connect;
+        document.getElementById("buyBtn").onclick = buy;
+    </script>
+
 </body>
 
 </html>
