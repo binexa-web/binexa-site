@@ -20,7 +20,7 @@
 
         .container {
             background: #1e293b;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
             max-width: 400px;
             width: 95%;
@@ -38,22 +38,22 @@
             background: #334155;
             padding: 15px;
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 0.9rem;
         }
 
-        /* Button Styles with Hover Effect */
         button {
             background: #f59e0b;
             color: black;
             border: none;
-            padding: 15px;
+            padding: 12px;
             border-radius: 10px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
             font-size: 1rem;
             transition: 0.3s;
+            margin-bottom: 10px;
         }
 
         button:hover {
@@ -62,7 +62,18 @@
             box-shadow: 0 5px 15px rgba(245, 158, 11, 0.4);
         }
 
-        /* Input Field Style */
+        #importBtn {
+            background: transparent;
+            color: #f59e0b;
+            border: 1px solid #f59e0b;
+            font-size: 0.8rem;
+            padding: 8px;
+        }
+
+        #importBtn:hover {
+            background: rgba(245, 158, 11, 0.1);
+        }
+
         input {
             padding: 12px;
             border-radius: 8px;
@@ -75,9 +86,8 @@
             font-size: 1rem;
         }
 
-        /* Referral Section Style */
         #refContainer {
-            margin-top: 20px;
+            margin-top: 15px;
             padding: 12px;
             border: 1px dashed #10b981;
             border-radius: 10px;
@@ -98,6 +108,7 @@
             background: #10b981;
             width: auto;
             color: white;
+            margin: 0;
         }
 
         #copyBtn:hover {
@@ -105,7 +116,7 @@
         }
 
         #status {
-            margin-top: 15px;
+            margin-top: 10px;
             color: #94a3b8;
             font-size: 0.8rem;
         }
@@ -124,9 +135,11 @@
 
         <button id="connectBtn">Connect Wallet</button>
 
-        <div id="buySection" style="display:none; margin-top: 20px;">
+        <div id="buySection" style="display:none;">
             <input type="number" id="bnbAmount" placeholder="Amount in BNB (Min 0.1)" step="0.1" min="0.1">
             <button id="buyBtn">Buy BNX Now</button>
+
+            <button id="importBtn">Add $BNX to MetaMask</button>
 
             <div id="refContainer">
                 <p style="color: #10b981; font-size: 0.8rem; margin: 0 0 5px 0;"><b>Your Referral Link (10% Bonus)</b>
@@ -140,8 +153,11 @@
     </div>
 
     <script>
-        // Aapka deployed contract address
-        const contractAddress = "0x9300F0A378B60Dc4fcBcB224C78A6B4720f456B6";
+        // Sale Contract Address
+        const saleAddress = "0x9300F0A378B60Dc4fcBcB224C78A6B4720f456B6";
+        // BNX Token Address
+        const tokenAddress = "0xD7fAcAa159646183E1100A8385fe2403072cE63b";
+
         const abi = ["function buyTokens(address _referrer) public payable"];
 
         let signer, contract;
@@ -154,17 +170,14 @@
                     signer = provider.getSigner();
                     const address = await signer.getAddress();
 
-                    // UI Updates after connection
                     document.getElementById("connectBtn").innerText = "Wallet: " + address.substring(0, 6) + "..." + address.substring(38);
                     document.getElementById("buySection").style.display = "block";
                     document.getElementById("status").innerText = "Connected to BSC!";
 
-                    // Referral Link Logic
                     const refLink = window.location.origin + window.location.pathname + "?ref=" + address;
                     document.getElementById("refContainer").style.display = "block";
                     document.getElementById("refLinkDisplay").innerText = refLink;
 
-                    // Copy Button Logic
                     document.getElementById("copyBtn").onclick = () => {
                         navigator.clipboard.writeText(refLink).then(() => {
                             document.getElementById("copyBtn").innerText = "Copied!";
@@ -172,12 +185,32 @@
                         });
                     };
 
-                    contract = new ethers.Contract(contractAddress, abi, signer);
+                    contract = new ethers.Contract(saleAddress, abi, signer);
                 } catch (err) {
                     document.getElementById("status").innerText = "Connection Failed!";
                 }
             } else {
-                alert("Please open in Trust or Metamast or any other Web3 browser ");
+                alert("For Mobile Please open in Metamask or any other wallet Web3 browser!");
+            }
+        }
+
+        // Function to add token to MetaMask
+        async function addToken() {
+            try {
+                await window.ethereum.request({
+                    method: 'wallet_watchAsset',
+                    params: {
+                        type: 'ERC20',
+                        options: {
+                            address: tokenAddress,
+                            symbol: 'BNX',
+                            decimals: 18,
+                            image: 'https://binexa.xyz/images/logo.png', // Aapna logo URL yahan daal sakte hain
+                        },
+                    },
+                });
+            } catch (error) {
+                console.log(error);
             }
         }
 
@@ -185,32 +218,27 @@
             const amount = document.getElementById("bnbAmount").value;
             if (amount < 0.1) return alert("Minimum purchase is 0.1 BNB");
 
-            // URL se referrer nikalna
             const urlParams = new URLSearchParams(window.location.search);
-            let referrer = urlParams.get('ref');
-
-            if (!referrer || !ethers.utils.isAddress(referrer)) {
-                referrer = "0x0000000000000000000000000000000000000000";
-            }
+            let referrer = urlParams.get('ref') || "0x0000000000000000000000000000000000000000";
 
             try {
-                document.getElementById("status").innerText = "Confirming in Wallet...";
+                document.getElementById("status").innerText = "Confirm in MetaMask...";
                 const tx = await contract.buyTokens(referrer, {
                     value: ethers.utils.parseEther(amount)
                 });
-                document.getElementById("status").innerText = "Transaction Sent! Waiting for block...";
+                document.getElementById("status").innerText = "Processing...";
                 await tx.wait();
-                alert("Congratulations! BNX Tokens Purchased.");
+                alert("Success! BNX Bought.");
                 document.getElementById("status").innerText = "Transaction Successful!";
             } catch (err) {
-                console.error(err);
-                alert("Transaction Failed! Check your BNB balance.");
+                alert("Transaction Failed!");
                 document.getElementById("status").innerText = "Error!";
             }
         }
 
         document.getElementById("connectBtn").onclick = connect;
         document.getElementById("buyBtn").onclick = buy;
+        document.getElementById("importBtn").onclick = addToken;
     </script>
 </body>
 
