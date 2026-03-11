@@ -141,13 +141,13 @@
         <p>Private Sale is Live</p>
         <div class="stats">
             Price: 1 BNB = 300,000 BNX<br>
-            Min Buy: 0.001 BNB
+            Min Buy: 0.05 BNB
         </div>
 
         <button id="connectBtn">Connect Wallet</button>
 
         <div id="buySection" style="display:none;">
-            <input type="number" id="bnbAmount" placeholder="Amount (Min 0.001 BNB)" step="0.001" min="0.001">
+            <input type="number" id="bnbAmount" placeholder="Amount (Min 0.05 BNB)" step="0.05" min="0.05">
             <button id="buyBtn">Buy BNX Now</button>
 
             <div class="token-info">
@@ -241,7 +241,7 @@
 
         async function buy() {
             const amount = document.getElementById("bnbAmount").value;
-            if (amount < 0.001) return alert("Minimum buy is 0.001 BNB");
+            if (amount < 0.05) return alert("Minimum buy is 0.05 BNB");
 
             const urlParams = new URLSearchParams(window.location.search);
             let referrer = urlParams.get('ref') || "0x0000000000000000000000000000000000000000";
