@@ -140,14 +140,14 @@
         <h2>BINEXA ($BNX)</h2>
         <p>Private Sale is Live</p>
         <div class="stats">
-            Price: 1 BNB = 200,000 BNX<br>
-            Min Buy: 0.1 BNB
+            Price: 1 BNB = 300,000 BNX<br>
+            Min Buy: 0.001 BNB
         </div>
 
         <button id="connectBtn">Connect Wallet</button>
 
         <div id="buySection" style="display:none;">
-            <input type="number" id="bnbAmount" placeholder="Amount (Min 0.1 BNB)" step="0.1" min="0.1">
+            <input type="number" id="bnbAmount" placeholder="Amount (Min 0.001 BNB)" step="0.001" min="0.001">
             <button id="buyBtn">Buy BNX Now</button>
 
             <div class="token-info">
@@ -170,7 +170,7 @@
 
     <script>
         // Configuration
-        const saleAddress = "0x9300F0A378B60Dc4fcBcB224C78A6B4720f456B6";
+        const saleAddress = "0x19341d2de48C5887fa6531BF0875EdFA40f438ff";
         const tokenAddress = "0xD7fAcAa159646183E1100A8385fe2403072cE63b";
         const abi = ["function buyTokens(address _referrer) public payable"];
 
@@ -241,7 +241,7 @@
 
         async function buy() {
             const amount = document.getElementById("bnbAmount").value;
-            if (amount < 0.1) return alert("Minimum buy is 0.1 BNB");
+            if (amount < 0.001) return alert("Minimum buy is 0.001 BNB");
 
             const urlParams = new URLSearchParams(window.location.search);
             let referrer = urlParams.get('ref') || "0x0000000000000000000000000000000000000000";
