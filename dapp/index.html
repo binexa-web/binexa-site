@@ -81,6 +81,36 @@
             color: #94a3b8;
             font-size: 0.8rem;
         }
+
+        button {
+            background: #f59e0b;
+            color: black;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            /* Cursor pointer dikhane ke liye */
+            width: 100%;
+            font-size: 1rem;
+            transition: 0.3s;
+            /* Smooth highlight ke liye */
+        }
+
+        /* Button par cursor aane par ye rang hoga */
+        button:hover {
+            background: #fbbf24;
+            /* Thoda light yellow/orange highlight */
+            box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);
+            /* Glow effect */
+            transform: translateY(-2px);
+            /* Button thoda upar uthega */
+        }
+
+        /* Button dabane par effect */
+        button:active {
+            transform: translateY(0px);
+        }
     </style>
 </head>
 
