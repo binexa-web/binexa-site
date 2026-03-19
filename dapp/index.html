@@ -140,14 +140,14 @@
         <h2>BINEXA ($BNX)</h2>
         <p>Private Sale is Live</p>
         <div class="stats">
-            Price: 1 BNB = 300,000 BNX<br>
-            Min Buy: 0.05 BNB
+            Price: 1 BNB = 200,000 BNX<br>
+            Min Buy: 0.1 BNB
         </div>
 
         <button id="connectBtn">Connect Wallet</button>
 
         <div id="buySection" style="display:none;">
-            <input type="number" id="bnbAmount" placeholder="Amount (Min 0.05 BNB)" step="0.05" min="0.05">
+            <input type="number" id="bnbAmount" placeholder="Amount (Min 0.1 BNB)" step="0.1" min="0.1">
             <button id="buyBtn">Buy BNX Now</button>
 
             <div class="token-info">
@@ -158,7 +158,7 @@
             </div>
 
             <div id="refContainer">
-                <p style="color: #10b981; font-size: 0.8rem; margin: 0 0 5px 0;"><b>Your Referral Link (10% Bonus)</b>
+                <p style="color: #10b981; font-size: 0.8rem; margin: 0 0 5px 0;"><b>Your Referral Link (20% Bonus)</b>
                 </p>
                 <div id="refLinkDisplay"></div>
                 <button id="copyBtn">Copy Link</button>
@@ -189,7 +189,7 @@
 
     <script>
         // Configuration
-        const saleAddress = "0x19341d2de48C5887fa6531BF0875EdFA40f438ff";
+        const saleAddress = "0x28adE74C7F89CF9793919911D1f632E64433aE8B";
         const tokenAddress = "0xD7fAcAa159646183E1100A8385fe2403072cE63b";
         const abi = ["function buyTokens(address _referrer) public payable"];
 
@@ -260,7 +260,7 @@
 
         async function buy() {
             const amount = document.getElementById("bnbAmount").value;
-            if (amount < 0.05) return alert("Minimum buy is 0.05 BNB");
+            if (amount < 0.1) return alert("Minimum buy is 0.1 BNB");
 
             const urlParams = new URLSearchParams(window.location.search);
             let referrer = urlParams.get('ref') || "0x0000000000000000000000000000000000000000";
